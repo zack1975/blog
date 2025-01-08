@@ -45,14 +45,14 @@ export class PostsController {
   ): Promise<BlogPost>{
     await this.blogPostsService.findById(id);
 
-    return this.blogPostsService.updateById(id, blogPost);
+    return this.blogPostsService.findByIdAndUpdate(id, blogPost);
   }
 
   @Delete(':id')
   async deleteBlogPost(
     @Param('id')
     id: string
-  ): Promise<{ deleted: boolean}> {
+  ): Promise<{ deleted: boolean }> {
     await this.blogPostsService.findById(id);
     const res = this.blogPostsService.deleteById(id);
 

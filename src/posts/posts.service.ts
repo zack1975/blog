@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { BlogPost } from './schemas/blogpost.schema'; 
@@ -35,7 +35,9 @@ export class BlogPostsService {
 
   async findById(id: string): Promise<BlogPost> {
     if (!mongoose.isValidObjectId(id)) {
-      throw new NotFoundException('Invalid ID format, please enter a valid ID');
+      throw new BadRequestException(
+        'Invalid ID format, please enter a valid ID',
+      );
     }
 
     const blogPost = await this.blogPostModel.findById(id);
@@ -51,7 +53,7 @@ export class BlogPostsService {
     return await this.blogPostModel.create(post);
   }
 
-  async updateById(id: string, blogPost: BlogPost): Promise<BlogPost> {
+  async findByIdAndUpdate(id: string, blogPost: BlogPost): Promise<BlogPost> {
 
     return await this.blogPostModel.findByIdAndUpdate(id, blogPost, {
       new: true,
